@@ -11,39 +11,36 @@ from config.logger import Logger
 logger = Logger(__name__)
 
 
-import json
-import re
-import redis
-from typing import List, Dict, AnyStr, Union, Optional, Any
-import google.generativeai as genai
-import os
-from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv())
-from config.logger import Logger
-
-logger = Logger(__name__)
-
-
 class AITeacher:
     def __init__(
-            self, 
+            self,
             system_prompt: AnyStr,
-            model_name: str = "gemini-1.5-flash",
+            model_name: str = "gemini-1.5-pro",
+            temperature: float = 1,
+            top_p: float = 0.95,
+            max_output_tokens: int = 1024,
             user_id: str = "test-user"
         ):
         self.system_prompt = system_prompt
         self.redis_client = redis.Redis(
-            host=os.environ.get("REDIS_HOST"), 
+            host=os.environ.get("REDIS_HOST"),
             port=int(os.environ.get("REDIS_PORT")),
-            # db=os.environ.get("REDIS_DB"),
             password=os.environ.get("REDIS_PASSWORD")
         )
+        self.temperature = temperature
+        self.top_p = top_p
+        self.max_output_tokens = max_output_tokens
         self.model_name = model_name
         self.user_id = user_id
         genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
         self.model = genai.GenerativeModel(
             model_name=self.model_name,
-            system_instruction=self.system_prompt
+            system_instruction=self.system_prompt,
+            generation_config={
+                "temperature": self.temperature,
+                "top_p": self.top_p,
+                "max_output_tokens": self.max_output_tokens
+            }
         )
         self.messages = self.load_messages()
     

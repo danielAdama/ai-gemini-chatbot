@@ -32,7 +32,6 @@ class ChatService:
         result = chatbot.run_conversation(chat_dict["question"])
 
         logger.info("Chats processed successfully")
-            
         # except Exception as ex:
         #     logger.error(f"Creating Train -> API /train/: {ex}")
         #     raise InternalServerException()
