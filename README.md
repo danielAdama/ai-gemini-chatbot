@@ -1,95 +1,194 @@
-# ai-bank-operator
+## Project Documentation for AI Chatbot with Redis Integration
 
-AI Bank Operator is a project designed to interact with customers using Generative AI models. This README provides instructions on how to set up and run the project.
+### Project Title: **MasteryHive AI Chatbot**
 
-## Prerequisites
+### Overview
+The **MasteryHive AI Chatbot** is an AI-powered application built using **FastAPI** and **Google Generative AI** for conversational interactions. It leverages Redis for caching chat messages and session management. The application consists of a backend server handling chat interactions and a frontend interface for users to communicate with the AI chatbot in real-time.
 
-- Docker
-- Docker Compose
-- Python 3.11
-- Redis
+### Table of Contents
+1. [Features](#features)
+2. [Technology Stack](#technology-stack)
+3. [Installation and Setup](#installation-and-setup)
+4. [Environment Variables](#environment-variables)
+5. [Project Structure](#project-structure)
+6. [API Endpoints](#api-endpoints)
+7. [Frontend Application](#frontend-application)
+8. [Running the Application](#running-the-application)
+9. [Contributing](#contributing)
+10. [License](#license)
 
-## Setup
+---
 
-### 1. Clone the Repository
+### Features
+- **Interactive AI Chatbot**: Uses Google Generative AI to engage users in educational conversations.
+- **Session Management**: Stores and retrieves conversation history for individual users using Redis.
+- **RESTful API**: Offers an API to send and retrieve chat messages.
+- **Frontend**: A simple web-based interface for users to interact with the AI.
 
-Clone the repository to your local machine using the following command:
+---
 
-```sh
-git clone https://github.com/danielAdama/ai-bank-operator.git
+### Technology Stack
+- **Backend**:
+  - FastAPI: Backend framework for building APIs.
+  - Redis: In-memory data structure store for caching messages.
+  - Google Generative AI: AI model for conversational responses.
+  - Docker: Containerization for easy deployment.
+
+- **Frontend**:
+  - HTML, CSS, JavaScript: Simple web-based frontend for chat interaction.
+
+---
+
+### Installation and Setup
+
+#### 1. Clone the Repository:
+```bash
+git clone https://github.com/your-username/masteryhive-ai-chatbot.git
+cd masteryhive-ai-chatbot
 ```
-```sh
-cd ai-bank-operator
-```
-### 2. Create an Environment File
-Create a .env file in the root directory of the project with the following command:
-```sh
-touch .env
-```
-After the creation of the .env, add the following environment variables:
-```sh
-GROQ_API_KEY=<your-groq-api-key>
-OPENAI_API_KEY=<your-openai-api-key>
-MODEL=<your-openai-model>
-REDIS_HOST=redis
-REDIS_PORT=6379
-REDIS_DB=0
-```
-### 3. Docker Setup
-Ensure Docker and Docker Compose are installed on your system. You can download Docker and Docker Compose from <https://docker-docs.uclv.cu/get-docker/>.
-### 4. Build and Run the Project
-Use the following command to build and run the project with Docker Compose:
 
-```sh
-docker-compose up -d
+#### 2. Setup Environment Variables:
+Create a `.env` file in the root directory and configure the following variables:
+
+```bash
+REDIS_HOST=your_redis_host
+REDIS_PORT=your_redis_port
+REDIS_PASSWORD=your_redis_password
+GEMINI_API_KEY=your_google_generative_ai_api_key
 ```
-This command will build the Docker images and start the services defined in the docker-compose.yml file.
-### 5. Access the Application
-The application will be running at `http://localhost:80`.
+
+#### 3. Install Dependencies:
+
+Backend dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+Frontend dependencies:
+No dependencies are required for the frontend as it uses HTML/CSS/JavaScript.
+
+#### 4. Run the Application:
+```bash
+uvicorn src.main:app --reload
+```
+
+The application will be available at `http://localhost:8000`.
+
+#### 5. Running with Docker:
+Ensure Docker is installed and running on your system. Then use the provided `Dockerfile` to build and run the container:
+
+```bash
+docker build -t masteryhive-ai .
+docker run -d -p 8000:8000 masteryhive-ai
+```
+
+---
+
+### Environment Variables
+
+- **REDIS_HOST**: The host address of the Redis instance.
+- **REDIS_PORT**: The port Redis is running on.
+- **REDIS_PASSWORD**: The password for Redis authentication.
+- **GEMINI_API_KEY**: The API key for Google Generative AI.
+
+---
 
 ### Project Structure
-* src/: Contains the source code for the application.
-* gen_ai/: Contains the AI models and utilities.
-* utils/: Contains utility functions.
-* config/: Configuration files for the project.
-* Dockerfile: Dockerfile for building the Docker image.
-* docker-compose.yml: Docker Compose configuration file.
-* requirements.txt: Python dependencies.
 
-### Makefile Commands
-The project includes a Makefile with the following commands:
+```plaintext
+├── gen_ai/
+│   ├── __init__.py          # Core AI chatbot logic
+│   ├── prompt/
+│   │   └── templates/
+│   │       └── system_template.txt  # System prompt for the chatbot
+├── src/
+│   ├── controllers/
+│   │   └── chat.py          # Chat API controller
+│   ├── schemas/
+│   │   └── chat_schema.py   # Pydantic models for chat input/output
+│   ├── services/
+│   │   └── chat_service.py  # Chat service interacting with the AI and Redis
+│   ├── utils/
+│   │   ├── app_utils.py     # Utility functions
+│   │   ├── request_response.py  # API response helper
+│   │   └── connection.py    # Redis connection management
+│   ├── main.py              # FastAPI application entry point
+├── frontend/
+│   ├── index.html           # Frontend interface for the chatbot
+│   ├── script.js            # JavaScript for frontend chat logic
+│   └── styles.css           # CSS for frontend styling
+├── .env                     # Environment variables
+├── requirements.txt         # Python dependencies
+├── Dockerfile               # Docker configuration for the project
+```
 
-* compose_up: Runs Docker Compose to start the services.
-* compose_down: Shuts down the Docker Compose services.
-* start_dev: Runs the application in development mode.
-* start_prod: Runs the application in production mode.
+---
+
 ### API Endpoints
-The application exposes the following API endpoints:
 
-POST /v1/chat/messages/: Chat with the Large Language Model.
-### Running the Application Locally
-1. Install Dependencies
-Ensure you have Python 3.11 installed. Then, install the dependencies using the following command:
+#### `POST /v1/chat/messages/`
+Send a message to the chatbot.
 
-```sh
-python3 -m pip install --upgrade pip
-```
-```sh
-pip3 install --no-cache-dir -r requirements.txt
-```
-2. Run the Application
-Use the following command to run the application in development mode:
+- **Request Body**:
+  ```json
+  {
+    "question": "What is photosynthesis?",
+    "user_id": "test-user"
+  }
+  ```
 
-```sh
-make start_dev
-```
-For production mode, use:
+- **Response**:
+  ```json
+  {
+    "message": "Chat added successfully",
+    "data": {
+      "question": "What is photosynthesis?",
+      "response": "Photosynthesis is a process used by plants to convert light energy into chemical energy..."
+    }
+  }
+  ```
 
-```sh
-make start_prod
-```
-Contributing
-Contributions are welcome! Please create a pull request with your changes.
+#### `GET /`
+Returns the status of the API.
 
-License
-This project is licensed under the MIT License.
+---
+
+### Frontend Application
+
+The frontend is a simple HTML-based chat interface.
+
+- **index.html**: Main chat UI with an input field and a "Send" button.
+- **script.js**: Handles sending messages to the backend and displaying responses.
+- **styles.css**: Contains styles for the chat interface.
+
+---
+
+### Running the Application
+
+1. Start the FastAPI backend using:
+   ```bash
+   uvicorn src.main:app --reload
+   ```
+
+2. Open the `frontend/index.html` file in a browser to interact with the chatbot.
+
+3. Use the input field to send a message, and the chatbot will respond based on the AI model.
+
+---
+
+### Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Open a Pull Request.
+
+---
+
+### License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
