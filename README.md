@@ -1,5 +1,9 @@
 ## Project Documentation for AI Chatbot with Redis Integration
 
+### Chat Interface
+<img width="1680" alt="Screenshot 2024-09-30 at 14 15 51" src="https://github.com/user-attachments/assets/9528198b-48dc-40c5-a3e0-858df2438345">
+
+
 ### Project Title: **MasteryHive AI Chatbot**
 
 ### Overview
