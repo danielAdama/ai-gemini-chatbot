@@ -72,15 +72,7 @@ No dependencies are required for the frontend as it uses HTML/CSS/JavaScript.
 uvicorn src.main:app --reload
 ```
 
-The application will be available at `http://localhost:8000`.
-
-#### 5. Running with Docker:
-Ensure Docker is installed and running on your system. Then use the provided `Dockerfile` to build and run the container:
-
-```bash
-docker build -t masteryhive-ai .
-docker run -d -p 8000:8000 masteryhive-ai
-```
+The application will be available at `http://localhost:80`.
 
 ---
 
