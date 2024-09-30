@@ -145,6 +145,14 @@ Returns the status of the API.
 
 ---
 
+### Makefile Commands
+The project includes a Makefile with the following commands:
+
+* compose_up: Runs Docker Compose to start the services.
+* compose_down: Shuts down the Docker Compose services.
+* start_dev: Runs the application in development mode.
+* start_prod: Runs the application in production mode.
+
 ### Frontend Application
 
 The frontend is a simple HTML-based chat interface.
@@ -156,11 +164,17 @@ The frontend is a simple HTML-based chat interface.
 ---
 
 ### Running the Application
-
-1. Start the FastAPI backend using:
-   ```bash
-   uvicorn src.main:app --reload
-   ```
+1. Run the Application
+  Use the following command to run the application in development mode:
+  
+  ```sh
+  make start_dev
+  ```
+  For production mode, start the FastAPI backend using:
+  
+  ```sh
+  make start_prod
+  ```
 
 2. Open the `frontend/index.html` file in a browser to interact with the chatbot.
 
