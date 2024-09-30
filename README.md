@@ -166,12 +166,10 @@ The frontend is a simple HTML-based chat interface.
 ### Running the Application
 1. Run the Application
   Use the following command to run the application in development mode:
-  
   ```sh
   make start_dev
   ```
   For production mode, start the FastAPI backend using:
-  
   ```sh
   make start_prod
   ```
