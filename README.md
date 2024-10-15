@@ -4,10 +4,10 @@
 <img width="1680" alt="Screenshot 2024-09-30 at 14 15 51" src="https://github.com/user-attachments/assets/9528198b-48dc-40c5-a3e0-858df2438345">
 
 
-### Project Title: **MasteryHive AI Chatbot**
+### Project Title: **AI Chatbot**
 
 ### Overview
-The **MasteryHive AI Chatbot** is an AI-powered application built using **FastAPI** and **Google Generative AI** for conversational interactions. It leverages Redis for caching chat messages and session management. The application consists of a backend server handling chat interactions and a frontend interface for users to communicate with the AI chatbot in real-time.
+The **AI Chatbot** is an AI-powered application built using **FastAPI** and **Google Generative AI** for conversational interactions. It leverages Redis for caching chat messages and session management. The application consists of a backend server handling chat interactions and a frontend interface for users to communicate with the AI chatbot in real-time.
 
 ### Table of Contents
 1. [Features](#features)
